@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: demanda-diaria-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: demanda_diaria
+      POSTGRES_USER: demanda
+      POSTGRES_PASSWORD: demanda_local_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - demanda_diaria_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U demanda -d demanda_diaria"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+volumes:
+  demanda_diaria_postgres:
